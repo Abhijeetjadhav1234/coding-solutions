@@ -5,9 +5,9 @@ class Solution {
         int best=arr[0];
         
         for(int i=1;i<arr.length;i++){
-            int v1=arr[i];
+           
             int v2=arr[i]+best;
-            best=Math.max(v1,v2);
+            best=Math.max(arr[i],v2);
             ans=Math.max(ans,best);
         }
         return ans;
