@@ -41,22 +41,26 @@ Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 ## Solution
 
 **Language:** Java  
-**Runtime:** 280 ms (beats 5.62%)  
-**Memory:** 47.2 MB (beats 72.55%)  
-**Submitted:** 2026-07-11T12:14:33.331Z  
+**Runtime:** 2 ms (beats 70.89%)  
+**Memory:** 46.9 MB (beats 94.30%)  
+**Submitted:** 2026-07-12T12:24:15.864Z  
 
 ```java
 class Solution {
     public int maxProduct(int[] nums) {
-        int ans=Integer.MIN_VALUE;
-        for(int i=0;i<nums.length;i++){
-            int pro=1;
-            for(int j=i;j<nums.length;j++){
-                pro*=nums[j];
-                ans=Math.max(ans,pro);
-            }
-        }
-        return ans;
+      int prefix=1;
+      int sufix=1;
+      int ans=nums[0];
+      int n=nums.length;
+      for(int i=0;i<nums.length;i++){
+        if(prefix==0)prefix=1;
+        if(sufix==0)sufix=1;
+        prefix*=nums[i];
+        sufix*=nums[n-i-1];
+        int current=Math.max(prefix,sufix);
+        ans=Math.max(ans,current);
+      }  
+      return ans;
     }
 }
 ```
