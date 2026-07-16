@@ -37,24 +37,26 @@ Output: 2
 ## Solution
 
 **Language:** Java  
-**Runtime:** 1552 ms (beats 9.13%)  
-**Memory:** 48.3 MB (beats 93.97%)  
-**Submitted:** 2026-07-16T05:54:14.076Z  
+**Runtime:** 23 ms (beats 93.84%)  
+**Memory:** 48.9 MB (beats 33.91%)  
+**Submitted:** 2026-07-16T06:54:52.111Z  
 
 ```java
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        int ans=0;
-        for(int i=0;i<nums.length;i++){
-            int sum=0;
-            for(int j=i;j<nums.length;j++){
-                sum+=nums[j];
-                if(sum==k){
-                    ans++;
-                }
+        HashMap<Integer,Integer>map=new HashMap<>();
+        map.put(0,1);
+        int prefixSum=0;
+        int count=0;
+        for(int num:nums){
+            prefixSum+=num;
+            if(map.containsKey(prefixSum-k)){
+                 count+=map.get(prefixSum-k);
             }
+            map.put(prefixSum,map.getOrDefault(prefixSum,0)+1);
         }
-        return ans;
+        return count;
+        
     }
 }
 ```
