@@ -39,27 +39,29 @@ Output: [2,3,4,-1,4]
 ## Solution
 
 **Language:** Java  
-**Runtime:** 89 ms (beats 10.79%)  
-**Memory:** 47.5 MB (beats 93.64%)  
-**Submitted:** 2026-07-27T10:07:27.053Z  
+**Runtime:** 16 ms (beats 35.60%)  
+**Memory:** 48.3 MB (beats 75.47%)  
+**Submitted:** 2026-07-28T04:55:00.615Z  
 
 ```java
 class Solution {
     public int[] nextGreaterElements(int[] nums) {
         int n=nums.length;
-        int[] arr=new int[n];
-        for(int i=0;i<nums.length;i++){
-            arr[i]=-1;
-            for(int j=1;j<n;j++){
-                int idx=(i+j)%n;
-                if(nums[idx]>nums[i]){
-                    arr[i]=nums[idx];
-                    break;
-                }
+        int[] ans=new int[n];
+        Arrays.fill(ans,-1);
+        Stack<Integer>box=new Stack<>();
+        for(int i=n*2-1;i>=0;i--){
+            int num=nums[i%n];
+            while(!box.isEmpty() && box.peek()<=num){
+                box.pop();
             }
-        }
-        return arr;
 
+            if(i<n && !box.isEmpty()){
+                ans[i]=box.peek();
+            }
+            box.push(num);
+        }
+        return ans;
     }
 }
 ```
