@@ -62,34 +62,36 @@ Explanation: ((10  *(6 / ((9 + 3)*  -11))) + 17) + 5
 ## Solution
 
 **Language:** Java  
-**Runtime:** 577 ms (beats 5.66%)  
-**Memory:** 46.9 MB (beats 6.21%)  
-**Submitted:** 2026-07-29T10:25:40.009Z  
+**Runtime:** 7 ms (beats 34.58%)  
+**Memory:** 45 MB (beats 90.29%)  
+**Submitted:** 2026-07-29T10:58:36.820Z  
 
 ```java
 class Solution {
     public int evalRPN(String[] tokens) {
-        List<String>list=new ArrayList<>(Arrays.asList(tokens));
-        while(list.size()>1){
-            for(int i=0;i<list.size();i++){
-                String t=list.get(i); 
-                if(t.equals("+") || t.equals("-") || t.equals("*") || t.equals("/"))
-                {
-                int a=Integer.parseInt(list.get(i-2));
-                int b=Integer.parseInt(list.get(i-1));
+        Stack<Integer>stack=new Stack<>();
+        for(String t:tokens){
+            if(t.equals("+") || t.equals("-") || t.equals("*") || t.equals("/")){
+                int a=stack.pop();
+                int b=stack.pop();
                 int val=0;
-               if(t.equals("+"))val=a+b;
-               else if(t.equals("-"))val=a-b;
-               else if(t.equals("*"))val=a*b;
-               else val=a/b;
-               list.set(i-2,String.valueOf(val));
-               list.remove(i);
-               list.remove(i-1);
-               break;
-                }
-            }
+                if (t.equals("+"))
+                    val = b + a;
+                else if (t.equals("-"))
+                    val = b - a;
+                else if (t.equals("*"))
+                    val = b * a;
+                else
+                    val = b / a;
+
+                stack.push(val);
+                            }
+                            else{
+                                stack.push(Integer.parseInt(t));
+                            }
         }
-        return Integer.parseInt(list.get(0));
+
+        return stack.peek();
     }
 }
 ```
