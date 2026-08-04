@@ -41,31 +41,40 @@ The substring with start index = 2 is "ab", which is an anagram of "ab".
 ## Solution
 
 **Language:** Java  
-**Runtime:** 360 ms (beats 11.38%)  
-**Memory:** 46.9 MB (beats 46.74%)  
-**Submitted:** 2026-08-04T03:56:23.686Z  
+**Runtime:** 45 ms (beats 26.25%)  
+**Memory:** 47.5 MB (beats 23.41%)  
+**Submitted:** 2026-08-04T12:07:13.099Z  
 
 ```java
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer>ans=new ArrayList<>();
-        int n=s.length();
-        int k=p.length();
-        int[] pcount=new int[26];
-        for(char c:p.toCharArray()){
-            pcount[c-'a']++;
+       List<Integer>ans=new ArrayList<>();
+       HashMap<Character,Integer>pcount=new HashMap<>();
+       HashMap<Character,Integer>scount=new HashMap<>();
+       int left=0;
+       int count=p.length();
+       for(char ch:p.toCharArray()){
+        pcount.put(ch,pcount.getOrDefault(ch,0)+1);
+       }
+       for(int rigth=0;rigth<s.length();rigth++){
+        char c=s.charAt(rigth);
+        scount.put(c,scount.getOrDefault(c,0)+1);
+        if(pcount.containsKey(c) && scount.get(c)<=pcount.get(c)){
+            count--;
         }
-        for(int i=0;i<=n-k;i++){
-            int[] count=new int[26];
-            for(int j=i;j<i+k;j++){
-                char ch=s.charAt(j);
-                count[ch-'a']++;
+        if(rigth-left+1>p.length()){
+            char lc=s.charAt(left);
+            if(pcount.containsKey(lc) && scount.get(lc)<=pcount.get(lc)){
+                count++;
             }
-            if(Arrays.equals(count,pcount)){
-                ans.add(i);
-            }
+            scount.put(lc,scount.get(lc)-1);
+            left++;
         }
-        return ans;
+        if(count==0){
+            ans.add(left);
+        }
+       } 
+       return ans;
     }
 }
 ```
