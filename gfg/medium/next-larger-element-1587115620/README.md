@@ -44,28 +44,29 @@ Explanation: There is no next greater element for any of the elements in the arr
 **Language:** Java  
 **Runtime:** N/A  
 **Memory:** N/A  
-**Submitted:** 2026-07-27T09:36:22.992Z  
+**Submitted:** 2026-08-11T05:06:40.024Z  
 
 ```java
 class Solution {
     public ArrayList<Integer> nextLargerElement(int[] arr) {
         // code here
         ArrayList<Integer>ans=new ArrayList<>();
-        Stack<Integer>box=new Stack<>();
-        for(int i=0; i<arr.length;i++){
-          ans.add(-1);  
+        for(int i=0;i<arr.length;i++){
+            ans.add(-1);
+        }
+        Stack<Integer>s=new Stack<>();
+        for(int i=arr.length-1;i>=0;i--){
+            while(!s.isEmpty() && arr[i]>=s.peek()){
+                s.pop();
+            }
+            if(!s.isEmpty()){
+                ans.set(i,s.peek());
+            }
+            s.push(arr[i]);
             
         }
-        for(int i=arr.length-1;i>=0;i--){
-            while(!box.isEmpty() && box.peek()<=arr[i]){
-                box.pop();
-            }
-            if(!box.isEmpty()){
-                ans.set(i,box.peek());
-            }
-            box.push(arr[i]);
-        }
         return ans;
+        
         
     }
 }
