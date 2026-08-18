@@ -4,28 +4,39 @@ class Solution {
         for(int i=0;i<asteroids.length;i++){
             list.add(asteroids[i]);
         }
-        boolean collisions =true;
-        while(collisions){
-            for(int i=0;i<=list.size()-1;i++){
-                int a=list.get(i);
-                int b=list.get(i+1);
+        int k=0;
+        while(k<list.size()-1){
+                int a=list.get(k);
+                int b=list.get(k+1);
                 if(a>0 && b<0){
-                    collisions=false;
+                    
                     if(Math.abs(a)<Math.abs(b)){
-                        list.remove(i);
+                        list.remove(k);
+                                            if (k > 0) {
+                        k--;
+                    }
                     }
                     else if(Math.abs(a)>Math.abs(b)){
-                        list.remove(i+1);
+                        list.remove(k+1);
+                                            if (k > 0) {
+                        k--;
+                    }
                     }
                     else{
-                        list.remove(i+1);
-                        list.remove(i);
+                        list.remove(k+1);
+                        list.remove(k);
+                                            if (k > 0) {
+                        k--;
+                    }
 
                     }
-                    break;
+                
+                }
+                else{
+                    k++;
                 }
             }
-        }
+        
 
        int[] ans=new int[list.size()];
        int j=0;
