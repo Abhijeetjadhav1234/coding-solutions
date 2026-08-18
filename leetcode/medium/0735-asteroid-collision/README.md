@@ -59,9 +59,9 @@ Explanation: The asteroid -6 makes the asteroid 3 and 5 explode, and then contin
 ## Solution
 
 **Language:** Java  
-**Runtime:** 0 ms  
-**Memory:** 43 MB  
-**Submitted:** 2026-08-18T10:02:50.738Z  
+**Runtime:** 16 ms (beats 5.10%)  
+**Memory:** 48.1 MB (beats 5.41%)  
+**Submitted:** 2026-08-18T10:16:46.108Z  
 
 ```java
 class Solution {
@@ -70,28 +70,39 @@ class Solution {
         for(int i=0;i<asteroids.length;i++){
             list.add(asteroids[i]);
         }
-        boolean collisions =true;
-        while(collisions){
-            for(int i=0;i<=list.size()-1;i++){
-                int a=list.get(i);
-                int b=list.get(i+1);
+        int k=0;
+        while(k<list.size()-1){
+                int a=list.get(k);
+                int b=list.get(k+1);
                 if(a>0 && b<0){
-                    collisions=false;
+                    
                     if(Math.abs(a)<Math.abs(b)){
-                        list.remove(i);
+                        list.remove(k);
+                                            if (k > 0) {
+                        k--;
+                    }
                     }
                     else if(Math.abs(a)>Math.abs(b)){
-                        list.remove(i+1);
+                        list.remove(k+1);
+                                            if (k > 0) {
+                        k--;
+                    }
                     }
                     else{
-                        list.remove(i+1);
-                        list.remove(i);
+                        list.remove(k+1);
+                        list.remove(k);
+                                            if (k > 0) {
+                        k--;
+                    }
 
                     }
-                    break;
+                
+                }
+                else{
+                    k++;
                 }
             }
-        }
+        
 
        int[] ans=new int[list.size()];
        int j=0;
