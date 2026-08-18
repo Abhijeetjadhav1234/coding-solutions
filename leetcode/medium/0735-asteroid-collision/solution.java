@@ -1,41 +1,39 @@
 class Solution {
     public int[] asteroidCollision(int[] asteroids) {
-        int n=asteroids.length;
-        List<Integer>l=new ArrayList<>();
-        for(int x: asteroids){
-            l.add(x);
+        List<Integer>list=new ArrayList<>();
+        for(int i=0;i<asteroids.length;i++){
+            list.add(asteroids[i]);
         }
-        int i=0;
-        while(i<l.size()-1){
-            int a=l.get(i);
-            int b=l.get(i+1);
-            if(a>0 && b<0){
-                if(Math.abs(a)>Math.abs(b)){
-                    l.remove(i+1);
-                }
-                else if(Math.abs(a)<Math.abs(b)){
-                    l.remove(i);
-                    if(i>0){
-                        i--;
+        boolean collisions =true;
+        while(collisions){
+            for(int i=0;i<=list.size()-1;i++){
+                int a=list.get(i);
+                int b=list.get(i+1);
+                if(a>0 && b<0){
+                    collisions=false;
+                    if(Math.abs(a)<Math.abs(b)){
+                        list.remove(i);
                     }
-                }
-                else{
-                    l.remove(i+1);
-                    l.remove(i);
-                    if(i>0){
-                        i--;
+                    else if(Math.abs(a)>Math.abs(b)){
+                        list.remove(i+1);
                     }
+                    else{
+                        list.remove(i+1);
+                        list.remove(i);
+
+                    }
+                    break;
                 }
-            
-            }else{
-                i++;
             }
         }
-     int[] ans=new int[l.size()];
-     for(int j=0;j<l.size();j++){
-        ans[j]=l.get(j);
-     }
 
+       int[] ans=new int[list.size()];
+       int j=0;
+       for(int n:list){
+        ans[j]=n;
+        j++;
+       }
        return ans;
+
     }
 }
