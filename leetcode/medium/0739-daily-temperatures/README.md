@@ -42,26 +42,25 @@ Output: [1,1,0]
 ## Solution
 
 **Language:** Java  
-**Runtime:** 80 ms (beats 10.13%)  
-**Memory:** 106.8 MB (beats 54.81%)  
-**Submitted:** 2026-07-28T05:50:33.708Z  
+**Runtime:** 78 ms (beats 18.06%)  
+**Memory:** 106.6 MB (beats 74.20%)  
+**Submitted:** 2026-08-18T08:50:27.013Z  
 
 ```java
 class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
         int n=temperatures.length;
-        int [] ans=new int[n];
-        Arrays.fill(ans,0);
-        Stack<Integer>st=new Stack<>();
+        int[] ans=new int[n];
+        Stack<Integer>s=new Stack<>();
         for(int i=n-1;i>=0;i--){
-           while(!st.isEmpty() && temperatures[st.peek()]<=temperatures[i]){
-            st.pop();
-           }
-           if(!st.isEmpty()){
-            ans[i]=st.peek()-i;
-           }
-           st.push(i);
-        
+          while(!s.isEmpty() && temperatures[s.peek()]<=temperatures[i]){
+            s.pop();
+          }
+         if(!s.isEmpty()){
+          ans[i]=s.peek()-i;
+         }
+         s.push(i);
+ 
         }
         return ans;
     }
