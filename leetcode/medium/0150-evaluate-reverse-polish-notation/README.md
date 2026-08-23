@@ -62,35 +62,29 @@ Explanation: ((10  *(6 / ((9 + 3)*  -11))) + 17) + 5
 ## Solution
 
 **Language:** Java  
-**Runtime:** 579 ms (beats 5.50%)  
-**Memory:** 47 MB (beats 5.72%)  
-**Submitted:** 2026-08-23T13:01:22.544Z  
+**Runtime:** 7 ms (beats 35.17%)  
+**Memory:** 45.6 MB (beats 10.08%)  
+**Submitted:** 2026-08-23T13:47:28.513Z  
 
 ```java
 class Solution {
     public int evalRPN(String[] tokens) {
-        List<String>l=new ArrayList<>(Arrays.asList(tokens));
-        while(l.size()>1){
-            for(int i=0;i<l.size();i++){
-                String t=l.get(i);
-                if(t.equals("+") || t.equals("-") || t.equals("*")|| t.equals("/")){
-                    int b=Integer.parseInt(l.get(i-1));
-                    int a=Integer.parseInt(l.get(i-2));
-                    int val=0;
-                    if(t.equals("+"))val=a+b;
-                    else if(t.equals("-"))val=a-b;
-                    else if(t.equals("*"))val=a*b;
-                    else val=a/b;
-                    
-                    l.set(i-2,String.valueOf(val));
-                    l.remove(i);
-                    l.remove(i-1);
-                    break;
-                }
+       Stack<Integer>s=new Stack<>();
+        for(String t:tokens){
+            if(t.equals("+") || t.equals("/") ||t.equals("*")||t.equals("-")){
+            int b=s.pop();
+            int a=s.pop();
+            int val=0;
+            if(t.equals("+"))val=a+b;
+            else if(t.equals("-"))val=a-b;
+            else if(t.equals("*"))val=a*b;
+            else val=a/b;
+            s.push(val);}
+            else{
+                s.push(Integer.parseInt(t));
             }
         }
-
-        return Integer.parseInt(l.get(0));
+        return s.peek();
     }
 }
 ```
