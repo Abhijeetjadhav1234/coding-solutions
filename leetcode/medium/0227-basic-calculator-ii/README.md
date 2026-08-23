@@ -51,43 +51,58 @@ Output: 5
 ## Solution
 
 **Language:** Java  
-**Runtime:** 22 ms (beats 61.72%)  
-**Memory:** 48.1 MB (beats 56.57%)  
-**Submitted:** 2026-07-29T09:32:38.195Z  
+**Runtime:** 9 ms (beats 98.17%)  
+**Memory:** 48.5 MB (beats 26.32%)  
+**Submitted:** 2026-08-23T09:13:52.247Z  
 
 ```java
 class Solution {
     public int calculate(String s) {
-        Stack<Integer>stack=new Stack<>();
+        List<Integer>d=new ArrayList<>();
+        List<Character>o=new ArrayList<>();
         int num=0;
-        char op='+';
-        for(int i=0;i<=s.length();i++){
-        char ch =(i==s.length())?'+':s.charAt(i);
-        if(Character.isDigit(ch)){
-            num=num*10+(ch-'0');
-        }
-        else if(ch!=' '){
-            if(op=='+'){
-                stack.push(num);
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch==' '){
+                continue;
             }
-            else if(op=='-'){
-                stack.push(-num);
+            if(Character.isDigit(ch)){
+                num=num*10+(ch-'0');
             }
-            else if(op=='*'){
-                stack.push(stack.pop()*num);
+            else{
+                d.add(num);
+
+                o.add(ch);
+                num=0;
             }
-            else if(op=='/'){
-                stack.push(stack.pop()/num);
+        }
+        d.add(num);
+
+        for(int i=0;i<o.size();){
+        if(o.get(i)=='*' || o.get(i)=='/'){
+            int a=d.get(i);
+            int b=d.get(i+1);
+            int val=(o.get(i)=='*')?a*b:a/b;
+            o.remove(i);
+            d.set(i,val);
+            d.remove(i+1);
+
+        }
+        else{
+            i++;
+        }
+        
+        }
+        int result=d.get(0);
+        for(int i=0;i<o.size();i++){
+            if(o.get(i)=='+'){
+            result+=d.get(i+1);}
+            else{
+            result-=d.get(i+1);
             }
-            op=ch;
-            num=0;
         }
-        }
-        int ans=0;
-        while(!stack.isEmpty()){
-            ans+=stack.pop();
-        }
-        return ans;
+        return result;
+
     }
 }
 ```
