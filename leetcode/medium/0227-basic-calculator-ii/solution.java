@@ -1,34 +1,49 @@
 class Solution {
     public int calculate(String s) {
-        Stack<Integer>stack=new Stack<>();
+        List<Integer>d=new ArrayList<>();
+        List<Character>o=new ArrayList<>();
         int num=0;
-        char op='+';
-        for(int i=0;i<=s.length();i++){
-        char ch =(i==s.length())?'+':s.charAt(i);
-        if(Character.isDigit(ch)){
-            num=num*10+(ch-'0');
-        }
-        else if(ch!=' '){
-            if(op=='+'){
-                stack.push(num);
+        for(int i=0;i<s.length();i++){
+            char ch=s.charAt(i);
+            if(ch==' '){
+                continue;
             }
-            else if(op=='-'){
-                stack.push(-num);
+            if(Character.isDigit(ch)){
+                num=num*10+(ch-'0');
             }
-            else if(op=='*'){
-                stack.push(stack.pop()*num);
+            else{
+                d.add(num);
+
+                o.add(ch);
+                num=0;
             }
-            else if(op=='/'){
-                stack.push(stack.pop()/num);
+        }
+        d.add(num);
+
+        for(int i=0;i<o.size();){
+        if(o.get(i)=='*' || o.get(i)=='/'){
+            int a=d.get(i);
+            int b=d.get(i+1);
+            int val=(o.get(i)=='*')?a*b:a/b;
+            o.remove(i);
+            d.set(i,val);
+            d.remove(i+1);
+
+        }
+        else{
+            i++;
+        }
+        
+        }
+        int result=d.get(0);
+        for(int i=0;i<o.size();i++){
+            if(o.get(i)=='+'){
+            result+=d.get(i+1);}
+            else{
+            result-=d.get(i+1);
             }
-            op=ch;
-            num=0;
         }
-        }
-        int ans=0;
-        while(!stack.isEmpty()){
-            ans+=stack.pop();
-        }
-        return ans;
+        return result;
+
     }
 }
